@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'rest_framework',
     'crispy_forms',
     'awards.apps.AwardsConfig',
@@ -127,6 +129,14 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),)
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'joywn',
+    'API_KEY': '347794989465727',
+    'API_SECRET': 'Jy7sejUxWne3qJs2xmhMhj8p6Eg',
+}
+MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
