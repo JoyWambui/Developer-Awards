@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Navbar w/ text</a>
+    <ul class="navbar-nav mr-auto">
+        <li></li>
+    </ul>
+    <div class="d-flex flex-row-reverse bd-highlight">
+        {% if current_user.is_authenticated %}
+        {% else %}
+        <div class="p-2 bd-highlight"><a class="nav-link" href="{%url 'signup'%}">Sign Up</a></div>
+        <div class="p-2 bd-highlight">Flex item 2</div>
+        <div class="p-2 bd-highlight">Flex item 3</div>
+        {%endif%}
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Features</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Pricing</a>
+            </li>
+        </ul>
+        <span class="navbar-text">
+            Navbar text with an inline element
+        </span>
+    </div>
+</nav>
