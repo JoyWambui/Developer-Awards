@@ -16,6 +16,12 @@ class Profile(models.Model):
         if created:
             Profile.objects.create(user=instance)
         instance.profile.save()
+        
+    @classmethod
+    def get_profiles(cls):
+        '''Retrieves all the profile instances from the database'''
+        return cls.objects.all()
+
 
     def __str__(self):
         return self.user.username
