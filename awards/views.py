@@ -24,3 +24,6 @@ def signup(request):
         'form': form,
         }
     return render(request, 'registration/signup.html', context)
+
+def homepage(request):
+    return render(request, 'homepage.html')
