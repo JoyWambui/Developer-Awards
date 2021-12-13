@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-from django.http import Http404
+from django.http import Http404, request
 
 
 class Profile(models.Model):
@@ -35,3 +35,14 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+class Project(models.Model):
+    '''Model that defines a project class and its methods'''
+    title = models.CharField(max_length = 30)
+    image = models.ImageField(upload_to='images/')
+    description = models.TextField(blank=True)
+    link = models.URLField(max_length=200)
+    author = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
