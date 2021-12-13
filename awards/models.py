@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.http import Http404
 
 
 class Profile(models.Model):
@@ -22,6 +23,15 @@ class Profile(models.Model):
         '''Retrieves all the profile instances from the database'''
         return cls.objects.all()
 
+    @classmethod
+    def get_single_profile(cls,profile_id):
+        '''Retrieves a single profile instance from the database by id'''
+        try:
+            return cls.objects.filter(id=profile_id).get()
+        except Profile.DoesNotExist:
+            return Http404
+
+        
 
     def __str__(self):
         return self.user.username

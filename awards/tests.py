@@ -27,6 +27,12 @@ class ProfileTestCase(TestCase):
         self.assertTrue(len(profiles)==1)
         
     
+    def test_get_single_profile(self):
+        '''Retrieves a single profile instance from the database by id'''
+        self.profile.save()
+        print('my id=',self.profile.id)
+        got_profile= Profile.get_single_profile(1)
+        self.assertEquals(self.profile,got_profile)
 
     
 
