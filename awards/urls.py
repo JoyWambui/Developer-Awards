@@ -12,7 +12,7 @@ urlpatterns= [
     path('', award_views.homepage, name='homepage'),
     path('api/', include(router.urls)),
     path('profiles/', award_views.ProfileListView.as_view(), name='profiles'),
-    # path('profiles/<int:pk>', award_views.ProfileView.as_view(), name='profile'),
+    path('profiles/<int:pk>/', award_views.ProfileDetailView.as_view(), name='profile'),
     # path('projects/', award_views.ProjectList.as_view(), name='projects'),
 
 ]

@@ -41,6 +41,9 @@ def homepage(request):
 
 class ProfileListView(generic.ListView):
     model=Profile
+    
+class ProfileDetailView(generic.DetailView):
+    model = Profile
 class ProfileViewSet(viewsets.ModelViewSet):
     """
     This viewset automatically provides `list` and `retrieve` actions.
