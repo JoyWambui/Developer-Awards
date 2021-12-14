@@ -82,17 +82,18 @@ class ProjectDetailView(generic.DetailView):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
         return context
 
-class ProfileUpdateView(generic.UpdateView):
-    model = Profile
+class ProjectUpdateView(generic.UpdateView):
+    model = Project
   
     # specify the fields
     fields = [
         "title",
         "description",
-        "image"
+        "image",
         "link"
     ]
-
+    def get_success_url(self):
+        return reverse('project', kwargs={'pk': self.object.pk})
 
 
 #API LOGIC

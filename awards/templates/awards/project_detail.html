@@ -33,7 +33,11 @@
                             href="{%url% profile pk=profile.author.id}">@{{project.author.username}}</a></p>
                     <p class="card-text"><strong>Title <br></strong>{{project.title|title}}</p>
                     <p class="card-text"><strong>Description <br> </strong>{{project.description}}</p>
-                </div>
+                    <div class="d-flex justify-content-center">
+                        <a class="btn btn-info" href="{%url 'projectUpdate' pk=project.id%}" role="button">Update</a>
+                    
+                    </div>
+               </div>
             </div>
         </div>
         <div class="col-sm-2"></div>
