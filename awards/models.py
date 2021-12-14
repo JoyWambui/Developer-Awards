@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.http import Http404, request
+from rest_framework.authtoken.models import Token
 
 
 class Profile(models.Model):
@@ -17,6 +18,10 @@ class Profile(models.Model):
         if created:
             Profile.objects.create(user=instance)
         instance.profile.save()
+    @receiver(post_save, sender=User)
+    def create_auth_token(sender, instance=None, created=False, **kwargs):
+        if created:
+            Token.objects.create(user=instance)
         
     @classmethod
     def get_profiles(cls):
@@ -44,5 +49,11 @@ class Project(models.Model):
     link = models.URLField(max_length=200)
     author = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
+    @classmethod
+    def get_projects(cls):
+        '''Retrieves all the project instances from the database'''
+        return cls.objects.all()
+
+    
     def __str__(self):
         return self.title

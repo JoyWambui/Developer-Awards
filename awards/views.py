@@ -1,5 +1,5 @@
 from django.http import Http404
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import login, authenticate
 from django.urls import reverse
 from .forms import SignUpForm
@@ -7,9 +7,11 @@ from django.contrib import messages
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
-from .models import  Profile
-from .serializer import ProfileSerializer
-
+from .models import  Profile,Project
+from .serializer import ProfileSerializer,ProjectSerializer
+from rest_framework import status,viewsets
+from rest_framework.parsers import JSONParser
+from .permissions import IsAuthenticatedOrReadOnly
 
 def signup(request):
     '''View function that signs up a new user'''
@@ -36,27 +38,91 @@ def signup(request):
 def homepage(request):
     return render(request, 'homepage.html')
 
-class ProfileList(APIView):
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'profiles.html'
-    def get(self, request, format=None):
-        profiles = Profile.get_profiles()
-        serializers = ProfileSerializer(profiles,many=True)
-        return Response({'serializers':serializers.data,'profiles':profiles})
+class ProfileViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list` and `retrieve` actions.
+    """
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly,]
     
-class ProfileView(APIView):
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'profile.html'
-    
-    def get_single_profile(self,pk):
-        try:
-            return Profile.objects.filter(id=pk).get()
-        except Profile.DoesNotExist:
-            raise Http404
-
-
-    def get(self, request, pk, format=None):
-        profile = self.get_single_profile(pk)
-        serializer = ProfileSerializer(profile)
-        return Response({'serializer':serializer.data,'profile':profile})
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
         
+class ProjectViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list` and `retrieve` actions.
+    """
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly,]
+    
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
+
+
+# class ProfileList(APIView):
+#     # renderer_classes = [TemplateHTMLRenderer]
+#     # template_name = 'profiles.html'
+    
+#     def perform_create(self, serializer):
+#         serializer.save(user=self.request.user)
+    
+#     def get(self, request, format=None):
+#         profiles = Profile.get_profiles()
+#         serializers = ProfileSerializer(profiles,many=True)
+#         return Response({'serializers':serializers.data,})#'profiles':profiles})
+    
+#     def post(self, request, format=None):
+#         serializers = ProfileSerializer(data=request.data)
+#         if serializers.is_valid():
+#             serializers.save()
+#             return Response(serializers.data, status=status.HTTP_201_CREATED)
+#         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# class ProfileView(APIView):
+#     renderer_classes = [TemplateHTMLRenderer]
+#     template_name = 'profile.html'
+    
+#     def get_single_profile(self,pk):
+#         try:
+#             return Profile.objects.filter(id=pk).get()
+#         except Profile.DoesNotExist:
+#             raise Http404
+
+
+#     def get(self, request, pk, format=None):
+#         user=request.user
+#         profile = get_object_or_404(Profile, pk=pk)
+#         serializers = ProfileSerializer(profile)
+#         print(serializers.data)
+#         return Response({'serializer':serializers.data,'profile':profile})
+
+#     def post(self, request, pk,format=None):
+#         user=request.user
+#         if pk: # the update request 
+#             profile = get_object_or_404(Profile, id=pk)
+#             serializers = ProfileSerializer(profile, data=request.data)
+#         else:  # the create request
+#             serializers = ProfileSerializer(data=request.data)
+#         if not serializers.is_valid():
+#             return Response({'serializers': serializers,'profile':profile})
+#         serializers.save()
+#         return redirect('profile', pk=profile.id)
+
+# class ProjectList(APIView):
+#     # renderer_classes = [TemplateHTMLRenderer]
+#     # template_name = 'projects.html'
+#     def get(self, request, format=None):
+#         projects = Project.get_projects()
+#         serializers = ProjectSerializer(projects,many=True)
+#         return Response({'serializers':serializers.data,'projects':projects})
+    
+#     def post(self, request, format=None):
+#         serializers = ProjectSerializer(data=request.data)
+#         if serializers.is_valid():
+#             serializers.save()
+#             return Response(serializers.data, status=status.HTTP_201_CREATED)
+#         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+       
