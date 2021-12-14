@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.http import Http404, request
+from django.urls import reverse
 from rest_framework.authtoken.models import Token
 
 
@@ -36,7 +37,8 @@ class Profile(models.Model):
         except Profile.DoesNotExist:
             return Http404
 
-        
+    def get_absolute_url(self):
+        return reverse('profile', kwargs={'pk': self.pk})   
 
     def __str__(self):
         return self.user.username

@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.urls import path, include
+from django.conf.urls.static import static
 from . import views as award_views
 from rest_framework.routers import DefaultRouter
 
@@ -13,6 +15,6 @@ urlpatterns= [
     path('api/', include(router.urls)),
     path('profiles/', award_views.ProfileListView.as_view(), name='profiles'),
     path('profiles/<int:pk>/', award_views.ProfileDetailView.as_view(), name='profile'),
-    # path('projects/', award_views.ProjectList.as_view(), name='projects'),
+    path('profiles/<int:pk>/update/', award_views.ProfileUpdateView.as_view(), name='profileUpdate'),
 
 ]

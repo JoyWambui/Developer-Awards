@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.contrib.auth import login, authenticate
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.views import generic
 from rest_framework.response import Response
@@ -44,6 +44,16 @@ class ProfileListView(generic.ListView):
     
 class ProfileDetailView(generic.DetailView):
     model = Profile
+    
+class ProfileUpdateView(generic.UpdateView):
+    model = Profile
+  
+    # specify the fields
+    fields = [
+        "profile_photo",
+        "bio",
+        "phone_number"
+    ]
 class ProfileViewSet(viewsets.ModelViewSet):
     """
     This viewset automatically provides `list` and `retrieve` actions.
