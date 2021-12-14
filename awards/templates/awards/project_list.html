@@ -25,6 +25,12 @@
                             <h5 class="card-title"><strong>Posted by <br> </strong><a href="{%url% profile pk=profile.author.id}">@{{project.author.username}}</a></h5>
                             <p class="card-text"><strong>Title <br></strong>{{project.title|title}}</p>
                             <p class="card-text"><strong>Description <br> </strong>{{project.description}}</p>
+                            <p class="card-text"><strong>Description <br> </strong>{{project.description}}</p>
+                            {%if project.link%}
+                            <p class="card-text"><strong><br> </strong><a href="{{project.link}}" target="blank">View Live Site</a></p>
+                            {%else%}
+                            <p><strong>Link to Live Site<br> </strong>Unavailable</p>
+                            {%endif%}
                         </div>
                     </div>
                 </div>

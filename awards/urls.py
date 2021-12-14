@@ -18,5 +18,7 @@ urlpatterns= [
     path('profiles/<int:pk>/update/', award_views.ProfileUpdateView.as_view(), name='profileUpdate'),
     path('projects/', award_views.ProjectListView.as_view(), name='profiles'),
     path('projects/new/', award_views.ProjectCreateView.as_view(), name='projectNew'),
+    path('projects/<int:pk>/', award_views.ProjectDetailView.as_view(), name='project'),
+
     
 ]

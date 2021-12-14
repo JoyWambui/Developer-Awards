@@ -74,6 +74,25 @@ class ProjectCreateView(LoginRequiredMixin,generic.CreateView):
 
 class ProjectListView(generic.ListView):
     model=Project
+    
+
+class ProjectDetailView(generic.DetailView):
+    model = Project
+    def get_context_data(self, **kwargs):
+        context = super(ProjectDetailView, self).get_context_data(**kwargs)
+        return context
+
+class ProfileUpdateView(generic.UpdateView):
+    model = Profile
+  
+    # specify the fields
+    fields = [
+        "title",
+        "description",
+        "image"
+        "link"
+    ]
+
 
 
 #API LOGIC

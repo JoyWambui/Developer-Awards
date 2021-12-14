@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block styles %}
+{{block.super}}
+<link rel="stylesheet" href="{% static 'css/project_detail.css' %}">
+{% endblock %}
+{% block content %}
+<div class="card bg-dark text-white">
+    {% if project.image %}
+    <img class="card-img" src="{{ project.image.url }}" alt="{{project.title}}" />
+    {%else%}
+    <img class="card-img" src="https://images.pond5.com/animated-sad-face-emoticon-black-footage-081533171_iconl.jpeg"
+        alt=" Project Image unavailable" />
+    {%endif%}
+    <div class="card-img-overlay text-center">
+        {%if project.link%}
+        <p class="card-text"><strong><br> </strong><a href="{{project.link}}" target="blank">View Live
+                Site</a></p>
+        {%else%}
+        <p><strong>Link to Live Site<br> </strong>Unavailable</p>
+        {%endif%}
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="card description">
+                <div class="card-body">
+                    <h5 class="card-title text-center"><strong>Project Details </h5>
+
+                    <p class="card-text"><strong>Posted by <br> </strong><a
+                            href="{%url% profile pk=profile.author.id}">@{{project.author.username}}</a></p>
+                    <p class="card-text"><strong>Title <br></strong>{{project.title|title}}</p>
+                    <p class="card-text"><strong>Description <br> </strong>{{project.description}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+
+    </div>
+</div>
+{% endblock %}

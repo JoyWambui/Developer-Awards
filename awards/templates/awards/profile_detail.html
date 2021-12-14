@@ -73,7 +73,8 @@
                     <div class="card mb-3">
                         <div class="row no-gutters align-items-center">
                             {% if project.image %}
-                            <img class=" card-img-top projectImage" src="{{ project.image.url }}" alt="{{project.title}}" />
+                            <img class=" card-img-top projectImage" src="{{ project.image.url }}"
+                                alt="{{project.title}}" />
                             {%else%}
                             <img class="card-img-top projectImage"
                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSPBdCYi2v2gXSJfvkxRbNbJPTULS9PG8dJw&usqp=CAU"
@@ -85,6 +86,15 @@
                                 </p>
                                 <p class="card-text"><strong>Title<br></strong>{{project.title|title}}</p>
                                 <p class="card-text"><strong>Description <br></strong>{{project.description}}</p>
+                                {%if project.link%}
+                                <p class="card-text"><strong><br> </strong><a href="{{project.link}}"
+                                        target="blank">View Live Site</a></p>
+                                {%else%}
+                                <p><strong>Link to Live Site<br> </strong>Unavailable</p>
+                                {%endif%}
+                                <div class="d-flex justify-content-center">
+                                    <a class="btn btn-info" href="{%url 'project' pk=project.id%}" role="button">View More</a>
+                                </div>            
                             </div>
                         </div>
                         {%endfor%}
