@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.contrib.auth import login, authenticate
 from django.urls import reverse, reverse_lazy
@@ -54,6 +54,20 @@ class ProfileUpdateView(generic.UpdateView):
         "bio",
         "phone_number"
     ]
+    
+class ProjectCreateView(generic.CreateView):
+  
+    # specify the model for create view
+    model = Project
+    fields = ['image','title', 'description']
+    def get_success_url(self):
+        return reverse('profile', kwargs={'pk': self.object.pk})
+    
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 class ProfileViewSet(viewsets.ModelViewSet):
     """
     This viewset automatically provides `list` and `retrieve` actions.
