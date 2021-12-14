@@ -1,17 +1,17 @@
 from django.http import Http404
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.contrib.auth import login, authenticate
 from django.urls import reverse
-from .forms import SignUpForm
 from django.contrib import messages
+from django.views import generic
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
-from .models import  Profile,Project
-from .serializer import ProfileSerializer,ProjectSerializer
 from rest_framework import status,viewsets
-from rest_framework.parsers import JSONParser
+from .serializer import ProfileSerializer,ProjectSerializer
+from .forms import SignUpForm
 from .permissions import IsAuthenticatedOrReadOnly
+from .models import  Profile,Project
 
 def signup(request):
     '''View function that signs up a new user'''
@@ -38,6 +38,9 @@ def signup(request):
 def homepage(request):
     return render(request, 'homepage.html')
 
+
+class ProfileListView(generic.ListView):
+    model=Profile
 class ProfileViewSet(viewsets.ModelViewSet):
     """
     This viewset automatically provides `list` and `retrieve` actions.

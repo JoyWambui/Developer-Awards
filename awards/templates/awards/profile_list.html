@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block styles %}
+{{block.super}}
+<link rel="stylesheet" href="{% static 'css/profile_list.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row align-items-center">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6 text-center">
+            {%for profile in profile_list%}
+            <div class="card">
+                <div class="d-flex justify-content-center">
+                    {% if profile.profile_photo %}
+                    <img src="{{ profile.profile_photo.url }}" alt=" Profile Photo" />
+                    {%else%}
+                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                        alt=" Profile Photo" />
+                    {%endif%}
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title"> <a href="#"><strong>@{{profile.user.username}}</strong></a>
+                    </h5>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+</div>
+{% endblock %}
