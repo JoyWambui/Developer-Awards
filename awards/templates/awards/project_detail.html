@@ -33,9 +33,9 @@
                             href="{%url% profile pk=profile.author.id}">@{{project.author.username}}</a></p>
                     <p class="card-text"><strong>Title <br></strong>{{project.title|title}}</p>
                     <p class="card-text"><strong>Description <br> </strong>{{project.description}}</p>
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-around">
                         <a class="btn btn-info" href="{%url 'projectUpdate' pk=project.id%}" role="button">Update</a>
-                    
+                        <a class="btn btn-danger" href="{%url 'projectDelete' pk=project.id%}" role="button">Delete</a>
                     </div>
                </div>
             </div>

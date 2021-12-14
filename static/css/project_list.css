@@ -10,3 +10,7 @@ img{
 .imgColumn{
     background-color: grey;
 }
+
+.projectCard{
+    margin: 2em;
+}

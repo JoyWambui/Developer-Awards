@@ -94,6 +94,13 @@ class ProjectUpdateView(generic.UpdateView):
     ]
     def get_success_url(self):
         return reverse('project', kwargs={'pk': self.object.pk})
+    
+class ProjectDeleteView(generic.DeleteView):
+    # specify the model you want to use
+    model = Project
+     
+    def get_success_url(self):
+        return reverse('profile', kwargs={'pk': self.request.user.id})
 
 
 #API LOGIC
