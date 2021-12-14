@@ -9,7 +9,7 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row ">
-        <div class="col-sm-5 align-items-center">
+        <div class="col-sm-4 align-items-center">
             <h2 class="text-center">Profile Details</h2>
             <div class="card">
                 {% if profile.profile_photo %}
@@ -55,19 +55,41 @@
                         </li>
                     </ul>
                     <div class="d-flex justify-content-center">
-                        <a class="btn btn-info" href="{%url 'profileUpdate' pk=profile.id%}" role="button" >Update Account Details</a>
+                        <a class="btn btn-info" href="{%url 'profileUpdate' pk=profile.id%}" role="button">Update
+                            Account Details</a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-7">
+        <div class="col-sm-8">
             <div class="row align-items-center">
                 <div class="col-12 text-center">
-                    <a href="{%url 'projectNew'%}" class="btn btn-outline-success btn-lg" role="button" aria-pressed="true"><span><i
-                                class='fas fa-plus' style='font-size:2em; color: green;'></i></span></a>
+                    <a href="{%url 'projectNew'%}" class="btn btn-outline-success btn-lg" role="button"
+                        aria-pressed="true"><span><i class='fas fa-plus'
+                                style='font-size:2em; color: green;'></i></span></a>
                     <p class="text-muted">Add a Project</p>
+                    <hr>
+                    {%for project in projects%}
+                    <div class="card mb-3">
+                        <div class="row no-gutters align-items-center">
+                            {% if project.image %}
+                            <img class=" card-img-top projectImage" src="{{ project.image.url }}" alt="{{project.title}}" />
+                            {%else%}
+                            <img class="card-img-top projectImage"
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSPBdCYi2v2gXSJfvkxRbNbJPTULS9PG8dJw&usqp=CAU"
+                                alt=" Project Image unavailable" />
+                            {%endif%}
+                            <div class="card-body text-left">
+                                <p class="card-text"><strong>Posted By: <br></strong><a
+                                        href="{%url 'profile' pk=project.author.id%}">@{{project.author.username}}</a>
+                                </p>
+                                <p class="card-text"><strong>Title<br></strong>{{project.title|title}}</p>
+                                <p class="card-text"><strong>Description <br></strong>{{project.description}}</p>
+                            </div>
+                        </div>
+                        {%endfor%}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    {% endblock content %}
+        {% endblock content %}

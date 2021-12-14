@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import login, authenticate
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -44,6 +45,10 @@ class ProfileListView(generic.ListView):
     
 class ProfileDetailView(generic.DetailView):
     model = Profile
+    def get_context_data(self, **kwargs):
+        context = super(ProfileDetailView, self).get_context_data(**kwargs)
+        context['projects'] = Project.objects.filter(author=self.object.user).all()
+        return context
     
 class ProfileUpdateView(generic.UpdateView):
     model = Profile
@@ -55,19 +60,23 @@ class ProfileUpdateView(generic.UpdateView):
         "phone_number"
     ]
     
-class ProjectCreateView(generic.CreateView):
+class ProjectCreateView(LoginRequiredMixin,generic.CreateView):
   
     # specify the model for create view
     model = Project
-    fields = ['image','title', 'description']
+    fields = ['image','title', 'description','link']
     def get_success_url(self):
         return reverse('profile', kwargs={'pk': self.object.pk})
     
     def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.user = self.request.user
-        self.object.save()
-        return HttpResponseRedirect(self.get_success_url())
+        form.instance.author = self.request.user
+        return super(ProjectCreateView, self).form_valid(form)
+
+class ProjectListView(generic.ListView):
+    model=Project
+
+
+#API LOGIC
 class ProfileViewSet(viewsets.ModelViewSet):
     """
     This viewset automatically provides `list` and `retrieve` actions.
@@ -78,7 +87,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-        
+
 class ProjectViewSet(viewsets.ModelViewSet):
     """
     This viewset automatically provides `list` and `retrieve` actions.
