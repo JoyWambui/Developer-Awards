@@ -115,6 +115,17 @@ class RateCreateView(LoginRequiredMixin,generic.CreateView):
         form.instance.reviewer = self.request.user
         form.instance.score = (form.instance.design+form.instance.usability+form.instance.content)/3
         return super(RateCreateView, self).form_valid(form)
+class RateUpdateView(generic.UpdateView):
+    model = Rate
+  
+    fields = ['design','usability', 'content']
+    def get_success_url(self):
+        return reverse('project', kwargs={'pk': self.object.rated_project.pk})
+
+    def form_valid(self, form):
+        form.instance.score = (form.instance.design+form.instance.usability+form.instance.content)/3
+        return super(RateUpdateView, self).form_valid(form)
+
 
 #API LOGIC
 class ProfileViewSet(viewsets.ModelViewSet):

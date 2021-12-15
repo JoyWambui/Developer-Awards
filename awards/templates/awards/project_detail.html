@@ -34,6 +34,7 @@
                     <p class="card-text"><strong>Title <br></strong>{{project.title|title}}</p>
                     <p class="card-text"><strong>Description <br> </strong>{{project.description}}</p>
                     <div class="d-flex justify-content-around">
+                        <a class="btn btn-warning" href="{%url 'rateNew' pk=project.id%}" role="button">Vote</a>
                         <a class="btn btn-info" href="{%url 'projectUpdate' pk=project.id%}" role="button">Update</a>
                         <a class="btn btn-danger" href="{%url 'projectDelete' pk=project.id%}" role="button">Delete</a>
                     </div>
@@ -61,8 +62,10 @@
                                 alt=" Profile Photo" />
                             {%endif%}
                         </div>
-                        <p class="card-text text-center"> <a class="username" href="{%url 'profile' pk=vote.reviewer.id%}"><strong>@{{vote.reviewer.username}}</strong></a></p>
-                </div>
+                        <p class="card-text text-center"> <a class="username"
+                                href="{%url 'profile' pk=vote.reviewer.id%}"><strong>@{{vote.reviewer.username}}</strong></a>
+                        </p>
+                    </div>
                     <div class="col-sm-9">
                         <div class="card-body text-center">
                             <div class="d-flex justify-content-around align-items-center">
@@ -74,9 +77,15 @@
                         </div>
                     </div>
                 </div>
+                <div class="card-footer view">
+                    <div class="d-flex justify-content-center">
+                        <a class="btn btn-info" href="{%url 'rateUpdate' pk=vote.id%}" role="button">Update</a>
+                    </div>
+                </div>
             </div>
             {%endfor%}
         </div>
         <div class="col-sm-1"></div>
     </div>
-    {% endblock %}
+</div>
+{% endblock %}
