@@ -1,3 +1,4 @@
+import re
 from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
@@ -59,3 +60,27 @@ class Project(models.Model):
     
     def __str__(self):
         return self.title
+    
+class Rate(models.Model):
+    '''Model that defines a rate class and its methods'''
+    class RateChoices(models.IntegerChoices):
+        ONE = 1
+        TWO = 2
+        THREE = 3
+        FOUR = 4
+        FIVE = 5
+        SIX = 6
+        SEVEN = 7
+        EIGHT =  8
+        NINE = 9
+    design = models.IntegerField(choices=RateChoices.choices, help_text='Choose a value between 1 and 10')
+    usability = models.IntegerField(choices=RateChoices.choices, help_text='Choose a value between 1 and 10')
+    content = models.IntegerField(choices=RateChoices.choices, help_text='Choose a value between 1 and 10')
+    score = models.DecimalField(max_digits=4,decimal_places=2)
+    rated_project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='rated_project')
+    reviewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='voter')
+    
+    def __str__(self):
+        return self.design
+    
+
