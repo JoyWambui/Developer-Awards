@@ -11,8 +11,10 @@ img{
     right: 0;
     top: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, .5);
+    background: rgba(0, 0, 0, 0.5);
 }
+
+
 .description, .voteCard{
     margin: 1em;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;}
@@ -23,6 +25,39 @@ img{
     height: 10em;
     border-radius: 50%;
     margin: 1rem 0;
+}
+.totalVotes{
+    font-size: 3em;
+}
+
+.live{
+    font-size: 3rem;
+    font-weight: bold;
+    color: #fff;
+}
+.live:hover{
+    text-decoration: none;
+    font-size: 3.2rem;
+    color: #fff;
+}
+.live:visited{
+    text-decoration: none;
+    font-size: 3rem;
+    color: #fff;
+
+}
+.voteDigits{
+    border: 0.1em #fff solid;
+    border-radius: 50%;
+    padding: 0.5em 0.4em;
+    margin: 0.2em 0;
+    font-size: bold;
+}
+#total{
+    padding: 0.5em 0.3em;
+    color: #FF165D;
+    border-color: #FF165D;
+    margin-top: 0;
 }
 @media (max-width: 768px) {
     .voteCard{

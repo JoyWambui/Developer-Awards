@@ -20,7 +20,7 @@
                     {%endif%}
                 </div>
                 <div class="card-body text-center">
-                    <h5 class="card-title"> <a href="#"><strong>@{{profile.user.username}}</strong></a>
+                    <h5 class="card-title"> <a href="{%url 'profile' pk=profile.pk%}"><strong>@{{profile.user.username}}</strong></a>
                     </h5>
                 </div>
             </div>

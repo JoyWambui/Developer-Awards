@@ -1,9 +1,11 @@
+from audioop import avg
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.contrib.auth import login, authenticate
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Avg
 from django.views import generic
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,6 +15,7 @@ from .serializer import ProfileSerializer,ProjectSerializer
 from .forms import SignUpForm
 from .permissions import IsAuthenticatedOrReadOnly
 from .models import  *
+
 
 def signup(request):
     '''View function that signs up a new user'''
@@ -41,8 +44,8 @@ def homepage(request):
 
 def search_results(request):
     
-    if 'search' in request.GET and request.GET["search"]:
-        search_term = request.GET.get("search")
+    if 'project' in request.GET and request.GET["project"]:
+        search_term = request.GET.get("project")
         project_list = Project.objects.filter(title__icontains=search_term)
         return render(request, 'search_results.html', {"project_list":project_list})
     else:
@@ -83,6 +86,9 @@ class ProjectCreateView(LoginRequiredMixin,generic.CreateView):
 
 class ProjectListView(generic.ListView):
     model=Project
+    def get_context_data(self,**kwargs):
+        context = super(ProjectListView,self).get_context_data(**kwargs)
+        return context
     
 
 class ProjectDetailView(generic.DetailView):
@@ -90,6 +96,11 @@ class ProjectDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
         context['votes'] = Rate.objects.filter(rated_project=self.object.pk).all()
+        context['total_design'] = Rate.objects.filter(rated_project=self.object.pk).all().aggregate(Avg('design'))
+        context['total_usability'] = Rate.objects.filter(rated_project=self.object.pk).all().aggregate(Avg('usability'))
+        context['total_content'] = Rate.objects.filter(rated_project=self.object.pk).all().aggregate(Avg('content'))
+        context['total_score'] = Rate.objects.filter(rated_project=self.object.pk).all().aggregate(Avg('score'))
+        print(Rate.objects.filter(rated_project=self.object.pk).all().aggregate(Avg('score')))
         return context
 
 class ProjectUpdateView(generic.UpdateView):
