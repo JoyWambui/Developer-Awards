@@ -125,6 +125,13 @@ class RateUpdateView(generic.UpdateView):
     def form_valid(self, form):
         form.instance.score = (form.instance.design+form.instance.usability+form.instance.content)/3
         return super(RateUpdateView, self).form_valid(form)
+class RateDeleteView(generic.DeleteView):
+
+    model = Rate
+     
+    def get_success_url(self):
+        return reverse('project', kwargs={'pk': self.object.rated_project.id})
+
 
 
 #API LOGIC

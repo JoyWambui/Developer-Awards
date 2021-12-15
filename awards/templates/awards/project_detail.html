@@ -78,8 +78,9 @@
                     </div>
                 </div>
                 <div class="card-footer view">
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-around">
                         <a class="btn btn-info" href="{%url 'rateUpdate' pk=vote.id%}" role="button">Update</a>
+                        <a class="btn btn-danger" href="{%url 'rateDelete' pk=vote.id%}" role="button">Delete</a>
                     </div>
                 </div>
             </div>
