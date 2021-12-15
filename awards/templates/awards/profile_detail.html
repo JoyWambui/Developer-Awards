@@ -68,9 +68,7 @@
             <div class="row align-items-center">
                 <div class="col-12 text-center">
                     {%if profile.id == user.id%}
-                    <a href="{%url 'projectNew'%}" class="btn btn-outline-success btn-lg" role="button"
-                        aria-pressed="true"><span><i class='fas fa-plus'
-                                style='font-size:2em; color: green;'></i></span></a>
+                    <a id="add" href="{%url 'projectNew'%}" class="btn btn-outline-success btn-lg" role="button" aria-pressed="true"><i class='fas fa-plus add' style="font-size: 4em;"></i></a>
                     <p class="text-muted">Add a Project</p>
                     <hr>
                     {%else%}
@@ -98,11 +96,12 @@
                                 </div>            
                             </div>
                         </div>
-                        {%endfor%}
-                        {%else%}
-                        <h2>User has no projects</h2>
-                        {%endif%}
+
                     </div>
+                    {%endfor%}
+                    {%else%}
+                    <h2>User has no projects</h2>
+                    {%endif%}
                 </div>
             </div>
         </div>

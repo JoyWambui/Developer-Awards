@@ -80,7 +80,7 @@ class ProjectCreateView(LoginRequiredMixin,generic.CreateView):
     model = Project
     fields = ['image','title', 'description','link']
     def get_success_url(self):
-        return reverse('profile', kwargs={'pk': self.object.pk})
+        return reverse('profile', kwargs={'pk': self.object.author.id})
     
     def form_valid(self, form):
         form.instance.author = self.request.user
