@@ -79,6 +79,7 @@ class ProjectDetailView(generic.DetailView):
     model = Project
     def get_context_data(self, **kwargs):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
+        context['votes'] = Rate.objects.filter(rated_project=self.object.pk).all()
         return context
 
 class ProjectUpdateView(generic.UpdateView):

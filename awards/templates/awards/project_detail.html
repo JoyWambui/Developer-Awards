@@ -37,11 +37,46 @@
                         <a class="btn btn-info" href="{%url 'projectUpdate' pk=project.id%}" role="button">Update</a>
                         <a class="btn btn-danger" href="{%url 'projectDelete' pk=project.id%}" role="button">Delete</a>
                     </div>
-               </div>
+                </div>
             </div>
         </div>
         <div class="col-sm-2"></div>
 
     </div>
-</div>
-{% endblock %}
+    <hr>
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <h2 class="text-center">Votes</h2>
+            {%for vote in votes%}
+            <div class="card voteCard">
+                <div class="row no-gutters">
+                    <div class="col-sm-3">
+                        <div class="d-flex justify-content-center">
+                            {% if vote.reviewer.profile.profile_photo %}
+                            <img id="pfp" src="{{ vote.reviewer.profile.profile_photo.url }}" alt=" Profile Photo" />
+                            {%else%}
+                            <img id="pfp"
+                                src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                                alt=" Profile Photo" />
+                            {%endif%}
+                        </div>
+                        <p class="card-text text-center"> <a class="username" href="{%url 'profile' pk=vote.reviewer.id%}"><strong>@{{vote.reviewer.username}}</strong></a></p>
+                </div>
+                    <div class="col-sm-9">
+                        <div class="card-body text-center">
+                            <div class="d-flex justify-content-around align-items-center">
+                                <p>Design <br><span>{{vote.design}}</span></p>
+                                <p>Usability <br><span>{{vote.usability}}</span></p>
+                                <p>Content <br><span>{{vote.content}}</span></p>
+                                <p>Average Score <br><span>{{vote.score}}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+    {% endblock %}
