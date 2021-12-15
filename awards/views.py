@@ -63,7 +63,8 @@ class ProfileDetailView(generic.DetailView):
         context['projects'] = Project.objects.filter(author=self.object.user).all()
         return context
     
-class ProfileUpdateView(generic.UpdateView):
+class ProfileUpdateView(LoginRequiredMixin ,generic.UpdateView):
+    login_url='/login/'
     model = Profile
   
     fields = [
@@ -74,7 +75,8 @@ class ProfileUpdateView(generic.UpdateView):
     
 #PROJECT LOGIC
 class ProjectCreateView(LoginRequiredMixin,generic.CreateView):
-  
+    login_url='/login/'
+
     model = Project
     fields = ['image','title', 'description','link']
     def get_success_url(self):
@@ -103,9 +105,9 @@ class ProjectDetailView(generic.DetailView):
         print(Rate.objects.filter(rated_project=self.object.pk).all().aggregate(Avg('score')))
         return context
 
-class ProjectUpdateView(generic.UpdateView):
+class ProjectUpdateView(LoginRequiredMixin,generic.UpdateView):
+    login_url='/login/'
     model = Project
-  
     fields = [
         "title",
         "description",
@@ -115,8 +117,8 @@ class ProjectUpdateView(generic.UpdateView):
     def get_success_url(self):
         return reverse('project', kwargs={'pk': self.object.pk})
     
-class ProjectDeleteView(generic.DeleteView):
-
+class ProjectDeleteView(LoginRequiredMixin,generic.DeleteView):
+    login_url='/login/'
     model = Project
      
     def get_success_url(self):
@@ -125,7 +127,7 @@ class ProjectDeleteView(generic.DeleteView):
 
 #RATE LOGIC
 class RateCreateView(LoginRequiredMixin,generic.CreateView):
-  
+    login_url='/login/'
     model = Rate
     fields = ['design','usability', 'content']
     def get_success_url(self):
@@ -136,9 +138,10 @@ class RateCreateView(LoginRequiredMixin,generic.CreateView):
         form.instance.reviewer = self.request.user
         form.instance.score = (form.instance.design+form.instance.usability+form.instance.content)/3
         return super(RateCreateView, self).form_valid(form)
-class RateUpdateView(generic.UpdateView):
+class RateUpdateView(LoginRequiredMixin,generic.UpdateView):
+    login_url='/login/'
     model = Rate
-  
+    
     fields = ['design','usability', 'content']
     def get_success_url(self):
         return reverse('project', kwargs={'pk': self.object.rated_project.pk})
@@ -146,8 +149,8 @@ class RateUpdateView(generic.UpdateView):
     def form_valid(self, form):
         form.instance.score = (form.instance.design+form.instance.usability+form.instance.content)/3
         return super(RateUpdateView, self).form_valid(form)
-class RateDeleteView(generic.DeleteView):
-
+class RateDeleteView(LoginRequiredMixin,generic.DeleteView):
+    login_url='/login/'
     model = Rate
      
     def get_success_url(self):

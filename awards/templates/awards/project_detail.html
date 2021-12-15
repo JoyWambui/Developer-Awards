@@ -44,9 +44,12 @@
                     <p class="card-text"><strong>Title <br></strong>{{project.title|title}}</p>
                     <p class="card-text"><strong>Description <br> </strong>{{project.description}}</p>
                     <div class="d-flex justify-content-around">
-                        <a class="btn btn-warning" href="{%url 'rateNew' pk=project.id%}" role="button">Vote</a>
+                        {%if project.author.id == user.id%}
                         <a class="btn btn-info" href="{%url 'projectUpdate' pk=project.id%}" role="button">Update</a>
                         <a class="btn btn-danger" href="{%url 'projectDelete' pk=project.id%}" role="button">Delete</a>
+                        {%else%}
+                        <a class="btn btn-warning" href="{%url 'rateNew' pk=project.id%}" role="button">Vote</a>
+                        {%endif%}
                     </div>
                 </div>
             </div>
@@ -79,18 +82,21 @@
                     <div class="col-sm-9">
                         <div class="card-body text-center">
                             <div class="d-flex justify-content-around align-items-center">
-                                <p>Design <br><span>{{vote.design}}</span></p>
-                                <p>Usability <br><span>{{vote.usability}}</span></p>
-                                <p>Content <br><span>{{vote.content}}</span></p>
-                                <p>Average Score <br><span>{{vote.score}}</span></p>
+                                <p>Design <br><span  class="voteDigit">{{vote.design}}</span></p>
+                                <p>Usability <br><span  class="voteDigit">{{vote.usability}}</span></p>
+                                <p>Content <br><span  class="voteDigit">{{vote.content}}</span></p>
+                                <p>Average Score <br><span  class="voteDigit">{{vote.score}}</span></p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer view">
                     <div class="d-flex justify-content-around">
+                        {%if vote.reviewer.id == user.id %}
                         <a class="btn btn-info" href="{%url 'rateUpdate' pk=vote.id%}" role="button">Update</a>
                         <a class="btn btn-danger" href="{%url 'rateDelete' pk=vote.id%}" role="button">Delete</a>
+                        {%else%}
+                        {%endif%}
                     </div>
                 </div>
             </div>

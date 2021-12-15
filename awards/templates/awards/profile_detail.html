@@ -55,8 +55,11 @@
                         </li>
                     </ul>
                     <div class="d-flex justify-content-center">
+                        {%if profile.id == user.id%}
                         <a class="btn btn-info" href="{%url 'profileUpdate' pk=profile.id%}" role="button">Update
                             Account Details</a>
+                        {%else%}
+                        {%endif%}
                     </div>
                 </div>
             </div>
@@ -64,11 +67,15 @@
         <div class="col-sm-8">
             <div class="row align-items-center">
                 <div class="col-12 text-center">
+                    {%if profile.id == user.id%}
                     <a href="{%url 'projectNew'%}" class="btn btn-outline-success btn-lg" role="button"
                         aria-pressed="true"><span><i class='fas fa-plus'
                                 style='font-size:2em; color: green;'></i></span></a>
                     <p class="text-muted">Add a Project</p>
                     <hr>
+                    {%else%}
+                    {%endif%}
+                    {%if projects%}
                     {%for project in projects%}
                     <div class="card mb-3">
                         <div class="row no-gutters align-items-center">
@@ -92,6 +99,9 @@
                             </div>
                         </div>
                         {%endfor%}
+                        {%else%}
+                        <h2>User has no projects</h2>
+                        {%endif%}
                     </div>
                 </div>
             </div>
