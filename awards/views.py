@@ -12,7 +12,7 @@ from rest_framework import status,viewsets
 from .serializer import ProfileSerializer,ProjectSerializer
 from .forms import SignUpForm
 from .permissions import IsAuthenticatedOrReadOnly
-from .models import  Profile,Project
+from .models import  Profile,Project,Rate
 
 def signup(request):
     '''View function that signs up a new user'''
@@ -39,7 +39,7 @@ def signup(request):
 def homepage(request):
     return render(request, 'homepage.html')
 
-
+#PROFILE LOGIC
 class ProfileListView(generic.ListView):
     model=Profile
     
@@ -53,16 +53,15 @@ class ProfileDetailView(generic.DetailView):
 class ProfileUpdateView(generic.UpdateView):
     model = Profile
   
-    # specify the fields
     fields = [
         "profile_photo",
         "bio",
         "phone_number"
     ]
     
+#PROJECT LOGIC
 class ProjectCreateView(LoginRequiredMixin,generic.CreateView):
   
-    # specify the model for create view
     model = Project
     fields = ['image','title', 'description','link']
     def get_success_url(self):
@@ -85,7 +84,6 @@ class ProjectDetailView(generic.DetailView):
 class ProjectUpdateView(generic.UpdateView):
     model = Project
   
-    # specify the fields
     fields = [
         "title",
         "description",
@@ -96,12 +94,26 @@ class ProjectUpdateView(generic.UpdateView):
         return reverse('project', kwargs={'pk': self.object.pk})
     
 class ProjectDeleteView(generic.DeleteView):
-    # specify the model you want to use
+
     model = Project
      
     def get_success_url(self):
         return reverse('profile', kwargs={'pk': self.request.user.id})
 
+
+#RATE LOGIC
+class RateCreateView(LoginRequiredMixin,generic.CreateView):
+  
+    model = Rate
+    fields = ['design','usability', 'content']
+    def get_success_url(self):
+        return reverse('project', kwargs={'pk': self.object.rated_project.pk})
+    
+    def form_valid(self, form):
+        form.instance.rated_project = Project.objects.get(id=self.kwargs.get('pk'))
+        form.instance.reviewer = self.request.user
+        form.instance.score = (form.instance.design+form.instance.usability+form.instance.content)/3
+        return super(RateCreateView, self).form_valid(form)
 
 #API LOGIC
 class ProfileViewSet(viewsets.ModelViewSet):
