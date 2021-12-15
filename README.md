@@ -36,7 +36,7 @@ To view this project:
 
 * Alternatively click on the link that follows:
 
-    [ DEVELOPER_AWARDS ]()
+    [ DEVELOPER_AWARDS ](https://developer-awards.herokuapp.com/)
 
 
 ### Existing virtualenv
