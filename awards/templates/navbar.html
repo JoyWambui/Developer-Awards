@@ -37,4 +37,10 @@
             </span>
         </div>
     </nav>
+    <nav class="navbar navbar-dark" style="background-color: #000">
+        <form action="{% url 'searchProject' %}" method="get" class="form-inline ">
+          <input class="form-control mr-sm-3" name='search' type="search" placeholder="Search Project Title" aria-label="Search">
+          <button class="btn btn-outline-success my-0 my-sm-0" type="submit">Search</button>
+        </form>
+      </nav>
 </div>

@@ -12,7 +12,7 @@ from rest_framework import status,viewsets
 from .serializer import ProfileSerializer,ProjectSerializer
 from .forms import SignUpForm
 from .permissions import IsAuthenticatedOrReadOnly
-from .models import  Profile,Project,Rate
+from .models import  *
 
 def signup(request):
     '''View function that signs up a new user'''
@@ -38,6 +38,16 @@ def signup(request):
 
 def homepage(request):
     return render(request, 'homepage.html')
+
+def search_results(request):
+    
+    if 'search' in request.GET and request.GET["search"]:
+        search_term = request.GET.get("search")
+        project_list = Project.objects.filter(title__icontains=search_term)
+        return render(request, 'search_results.html', {"project_list":project_list})
+    else:
+        message = "You haven't searched for any term"
+        return render(request, 'search_results.html',{"message":message})
 
 #PROFILE LOGIC
 class ProfileListView(generic.ListView):

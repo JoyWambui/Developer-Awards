@@ -24,4 +24,5 @@ urlpatterns= [
     path('projects/<int:pk>/rate/new/', award_views.RateCreateView.as_view(), name='rateNew'),
     path('rate/<int:pk>/update/', award_views.RateUpdateView.as_view(), name='rateUpdate'),
     path('rate/<int:pk>/delete/', award_views.RateDeleteView.as_view(), name='rateDelete'),
+    path('search-results/',award_views.search_results,name='searchProject')
 ]

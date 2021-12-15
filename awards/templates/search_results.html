@@ -1,0 +1,61 @@
+{%extends 'base.html'%}
+{%load static%}
+{% block styles %}
+{{block.super}}
+<link rel="stylesheet" href="{% static 'css/project_list.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row align-items-center">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8 text-center">
+            <h1>Search Results:</h1>
+            {% if project_list%}
+            <h2>Found {{ project_list|length }} projects.</h2>
+            {% else %}
+            <h2> Found 0 projects for the input search term.</h2>
+            {% endif %}
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6 text-center">
+            {% if project_list %}
+            {%for project in project_list%}
+            <div class="card projectCard">
+                <div class="row no-gutters align-items-center">
+                    <div class="col-md-4 imgColumn">
+                        {% if project.image %}
+                        <img src="{{ project.image.url }}" alt="{{project.title}}" />
+                        {%else%}
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSPBdCYi2v2gXSJfvkxRbNbJPTULS9PG8dJw&usqp=CAU"
+                            alt=" Project Image unavailable" />
+                        {%endif%}
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><strong>Posted by <br> </strong><a
+                                    href="{%url% profile pk=profile.author.id}">@{{project.author.username}}</a></h5>
+                            <p class="card-text"><strong>Title <br></strong>{{project.title|title}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer view">
+                    <div class="d-flex justify-content-center">
+                        <a class="btn btn-info" href="{%url 'project' pk=project.id%}" role="button">View
+                            More</a>
+                    </div>
+                </div>
+
+            </div>
+            {%endfor%}
+            {%else%}
+            <h2>Try another search term</h2>
+            {% endif %}
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+
+</div>
+{% endblock %}
